@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
-import React from "react";
-import {NavLink} from "react-router-dom"
 import {
   FiHome,
   FiCreditCard,
@@ -9,23 +9,77 @@ import {
   FiSettings,
   FiUser,
   FiDollarSign,
+  FiTarget,
+  FiChevronDown,
+  FiList,
+  FiTrendingUp,
+  FiTrendingDown,
 } from "react-icons/fi";
 
 const Sidebar = () => {
-  const menuItems = [
-    { name: "Dashboard", icon: <FiHome /> ,path:"/" },
-    { name: "Transactions", icon: <FiCreditCard /> ,path:"/Transactions" },
-    { name: "Reports", icon: <FiBarChart2 />  ,path:"/Reports"},
-    { name: "Categories", icon: <FiGrid /> ,path:"/Categories" },
-    { name: "Settings", icon: <FiSettings /> ,path:"/Settings" },
+  const location = useLocation();
 
+  const [transactionsOpen, setTransactionsOpen] = useState(false);
+
+  // Automatically open dropdown on transaction pages
+  useEffect(() => {
+    if (location.pathname.startsWith("/transactions")) {
+      setTransactionsOpen(true);
+    }
+  }, [location.pathname]);
+
+  const menuItems = [
+    {
+      name: "Dashboard",
+      icon: <FiHome />,
+      path: "/",
+    },
+    {
+      name: "Goal",
+      icon: <FiTarget />,
+      path: "/goals",
+    },
+    {
+      name: "Reports",
+      icon: <FiBarChart2 />,
+      path: "/reports",
+    },
+    {
+      name: "Categories",
+      icon: <FiGrid />,
+      path: "/categories",
+    },
+    {
+      name: "Settings",
+      icon: <FiSettings />,
+      path: "/settings",
+    },
+  ];
+
+  const transactionItems = [
+    {
+      name: "All Transactions",
+      icon: <FiList />,
+      path: "/transactions",
+      end: true,
+    },
+    {
+      name: "Income",
+      icon: <FiTrendingUp />,
+      path: "/transactions/income",
+    },
+    {
+      name: "Expenses",
+      icon: <FiTrendingDown />,
+      path: "/transactions/expenses",
+    },
   ];
 
   return (
-    <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col p-5 overflow-hidden">
+    <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col p-5 overflow-hidden shrink-0">
 
       {/* Logo */}
-      <div className="flex items-center gap-3 mb-10 shrink-0">
+      <div className="flex items-center gap-3 mb-8 shrink-0">
         <div className="bg-purple-600 text-white p-2 rounded-xl">
           <FiDollarSign size={24} />
         </div>
@@ -38,32 +92,100 @@ const Sidebar = () => {
       {/* Navigation */}
       <nav className="flex-1 min-h-0 overflow-y-auto space-y-2">
 
-{menuItems.map((item, index) => (
-  <NavLink
-    key={index}
-    to={item.path}
-    end={item.path === "/"}
-    className={({ isActive }) =>
-      `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
-      ${
-        isActive
-          ? "bg-purple-100 text-purple-700 font-semibold"
-          : "text-gray-500 hover:bg-purple-50 hover:text-purple-700"
-      }`
-    }
-  >
-    <span className="text-xl">
-      {item.icon}
-    </span>
+        {/* Dashboard */}
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+              isActive
+                ? "bg-purple-100 text-purple-700 font-semibold"
+                : "text-gray-500 hover:bg-purple-50 hover:text-purple-700"
+            }`
+          }
+        >
+          <FiHome className="text-xl" />
+          <span>Dashboard</span>
+        </NavLink>
 
-    <span>{item.name}</span>
-  </NavLink>
-))}
+        {/* Transactions Dropdown */}
+        <div>
+
+          <button
+            onClick={() => setTransactionsOpen(!transactionsOpen)}
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${
+              location.pathname.startsWith("/transactions")
+                ? "bg-purple-100 text-purple-700 font-semibold"
+                : "text-gray-500 hover:bg-purple-50 hover:text-purple-700"
+            }`}
+          >
+            <span className="flex items-center gap-3">
+              <FiCreditCard className="text-xl" />
+              <span>Transactions</span>
+            </span>
+
+            <FiChevronDown
+              className={`transition-transform duration-200 ${
+                transactionsOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+
+          {/* Dropdown Items */}
+          {transactionsOpen && (
+            <div className="mt-2 ml-4 pl-3 border-l-2 border-purple-100 space-y-1">
+
+              {transactionItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  end={item.end}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                      isActive
+                        ? "bg-purple-100 text-purple-700 font-semibold"
+                        : "text-gray-500 hover:bg-purple-50 hover:text-purple-700"
+                    }`
+                  }
+                >
+                  <span className="text-lg">
+                    {item.icon}
+                  </span>
+
+                  <span>{item.name}</span>
+                </NavLink>
+              ))}
+
+            </div>
+          )}
+
+        </div>
+
+        {/* Other Menu Items */}
+        {menuItems.slice(1).map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                isActive
+                  ? "bg-purple-100 text-purple-700 font-semibold"
+                  : "text-gray-500 hover:bg-purple-50 hover:text-purple-700"
+              }`
+            }
+          >
+            <span className="text-xl">
+              {item.icon}
+            </span>
+
+            <span>{item.name}</span>
+          </NavLink>
+        ))}
 
       </nav>
 
-      {/* Profile */}
-      <div className="border-t border-gray-200 pt-5 mt-4 shrink-0">
+      {/* Profile - Always Bottom */}
+      <div className="mt-auto border-t border-gray-200 pt-5 shrink-0">
 
         <div className="flex items-center gap-3">
 
