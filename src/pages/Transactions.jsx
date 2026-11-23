@@ -182,15 +182,11 @@ const searchTransactions = filterTransactions.filter((item) =>
         type: data.typeDrop,
         amount: data.amount,
         category: data.category,
-        date: new Date().toLocaleDateString("en-CA"),
+        date:data.date,
         description: data.description
       }
-    }
 
-
-
-
-    const exisitingTransaction = JSON.parse(localStorage.getItem("transaction") || "[]");
+       const exisitingTransaction = JSON.parse(localStorage.getItem("transaction") || "[]");
 
     const updateTransaction = [...exisitingTransaction, newTransaction];
 
@@ -209,6 +205,12 @@ const searchTransactions = filterTransactions.filter((item) =>
     setTransactionType("income");
 
     alert("Transactions added Successfully");
+    }
+
+
+
+
+   
 
 
 
