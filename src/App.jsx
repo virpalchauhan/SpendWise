@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Categories from './pages/Categories';
+import Transactions from "./pages/Transactions"
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
 
         <Route index element={<Dashboard/>} />
 
-        <Route path="Transactions" element={<h1>Transactions Page</h1>} />
+        <Route path="Transactions" element={<Transactions/>} />
 
         <Route path="Reports" element={<h1>Reports Page</h1>} />
 
