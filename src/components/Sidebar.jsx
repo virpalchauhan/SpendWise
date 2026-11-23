@@ -19,14 +19,14 @@ import {
 const Sidebar = () => {
   const location = useLocation();
 
-  const [transactionsOpen, setTransactionsOpen] = useState(false);
+  // const [transactionsOpen, setTransactionsOpen] = useState(false);
 
   // Automatically open dropdown on transaction pages
-  useEffect(() => {
-    if (location.pathname.startsWith("/transactions")) {
-      setTransactionsOpen(true);
-    }
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   if (location.pathname.startsWith("/transactions")) {
+  //     setTransactionsOpen(true);
+  //   }
+  // }, [location.pathname]);
 
   const menuItems = [
     {
@@ -56,24 +56,24 @@ const Sidebar = () => {
     },
   ];
 
-  const transactionItems = [
-    {
-      name: "All Transactions",
-      icon: <FiList />,
-      path: "/transactions",
-      end: true,
-    },
-    {
-      name: "Income",
-      icon: <FiTrendingUp />,
-      path: "/transactions/income",
-    },
-    {
-      name: "Expenses",
-      icon: <FiTrendingDown />,
-      path: "/transactions/expenses",
-    },
-  ];
+  // const transactionItems = [
+  //   {
+  //     name: "All Transactions",
+  //     icon: <FiList />,
+  //     path: "/transactions",
+  //     end: true,
+  //   },
+  //   // {
+  //   //   name: "Income",
+  //   //   icon: <FiTrendingUp />,
+  //   //   path: "/transactions/income",
+  //   // },
+  //   // {
+  //   //   name: "Expenses",
+  //   //   icon: <FiTrendingDown />,
+  //   //   path: "/transactions/expenses",
+  //   // },
+  // ];
 
   return (
     <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col p-5 overflow-hidden shrink-0">
@@ -107,59 +107,21 @@ const Sidebar = () => {
           <FiHome className="text-xl" />
           <span>Dashboard</span>
         </NavLink>
-
-        {/* Transactions Dropdown */}
-        <div>
-
-          <button
-            onClick={() => setTransactionsOpen(!transactionsOpen)}
-            className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${
-              location.pathname.startsWith("/transactions")
-                ? "bg-purple-100 text-purple-700 font-semibold"
-                : "text-gray-500 hover:bg-purple-50 hover:text-purple-700"
-            }`}
-          >
-            <span className="flex items-center gap-3">
-              <FiCreditCard className="text-xl" />
-              <span>Transactions</span>
-            </span>
-
-            <FiChevronDown
-              className={`transition-transform duration-200 ${
-                transactionsOpen ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-
-          {/* Dropdown Items */}
-          {transactionsOpen && (
-            <div className="mt-2 ml-4 pl-3 border-l-2 border-purple-100 space-y-1">
-
-              {transactionItems.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  end={item.end}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
-                      isActive
-                        ? "bg-purple-100 text-purple-700 font-semibold"
-                        : "text-gray-500 hover:bg-purple-50 hover:text-purple-700"
-                    }`
-                  }
-                >
-                  <span className="text-lg">
-                    {item.icon}
-                  </span>
-
-                  <span>{item.name}</span>
-                </NavLink>
-              ))}
-
-            </div>
-          )}
-
-        </div>
+{/* Transactions */}
+<NavLink
+  to="/transactions"
+  end
+  className={({ isActive }) =>
+    `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+      isActive
+        ? "bg-purple-100 text-purple-700 font-semibold"
+        : "text-gray-500 hover:bg-purple-50 hover:text-purple-700"
+    }`
+  }
+>
+  <FiCreditCard className="text-xl" />
+  <span>Transactions</span>
+</NavLink>
 
         {/* Other Menu Items */}
         {menuItems.slice(1).map((item) => (
