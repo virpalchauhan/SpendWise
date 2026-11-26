@@ -91,6 +91,17 @@ const searchTransactions = filterTransactions.filter((item) =>
       setTransaction(newData);
 
       localStorage.setItem("transaction", JSON.stringify(newData));
+
+
+       reset({
+        typeDrop: "income",
+        amount: "",
+        category: "",
+        date: new Date().toLocaleDateString("en-CA"),
+        description: ""
+      })
+
+
     }
   };
   const editTransactions = (data) => {
@@ -138,7 +149,7 @@ const searchTransactions = filterTransactions.filter((item) =>
   const onSubmit = async (data) => {
     await delay(1);
     let editTransaction;
-    debugger;
+    
 
     if (editId!==null) {
       editTransaction = {

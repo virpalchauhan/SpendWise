@@ -11,20 +11,6 @@ import {
 
 import "../../index.css";
 
-const incomeColors = [
-  "#635BFF",
-  "#22C55E",
-  "#F59E0B",
-  "#0EA5E9",
-];
-
-const expenseColors = [
-  "#EF4444",
-  "#F59E0B",
-  "#8B5CF6",
-  "#0EA5E9",
-  "#22C55E",
-];
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
