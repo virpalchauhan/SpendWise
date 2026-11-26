@@ -187,7 +187,7 @@ function Categories() {
     [activeTab, setValue]);
 
   const onSubmit = async (data) => {
-    debugger;
+    
 
 
     let newCategories;
@@ -450,7 +450,7 @@ function Categories() {
         {/* Category Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {filterCategories.map((category) => {
-            // debugger;
+            
             const Icon = iconMap[category.icon];
 
             return (
