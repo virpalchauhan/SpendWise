@@ -41,7 +41,7 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
-const ChartCard = ({ title, data, colors, total }) => {
+const ChartCard = ({ title, data, total }) => {
   return (
     <div className="financial-chart-card">
 
@@ -53,30 +53,32 @@ const ChartCard = ({ title, data, colors, total }) => {
       <div className="chart-content">
 
         <div className="pie-chart-wrapper">
-          <ResponsiveContainer width="100%" height={220}>
-            <PieChart>
-              <Pie
-                data={data}
-                dataKey="amount"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                innerRadius={62}
-                outerRadius={88}
-                paddingAngle={4}
-                stroke="none"
-              >
-                {data.map((item, index) => (
-                  <Cell
-                    key={item.name}
-                    fill={colors[index % colors.length]}
-                  />
-                ))}
-              </Pie>
+         
+<ResponsiveContainer width="100%" height={220}>
+  <PieChart>
+    <Pie
+      data={data}
+      dataKey="amount"
+      nameKey="name"
+      cx="50%"
+      cy="50%"
+      innerRadius={62}
+      outerRadius={88}
+      paddingAngle={4}
+      stroke="none"
+    >
+      {data.map((item) => (
+        <Cell
+          key={item.name}
+          fill={getCategoryColor(item.name)}
+        />
+      ))}
+    </Pie>
 
-              <Tooltip content={<CustomTooltip />} />
-            </PieChart>
-          </ResponsiveContainer>
+    <Tooltip content={<CustomTooltip />} />
+  </PieChart>
+</ResponsiveContainer>
+
 
           <div className="chart-center-text">
             <span>Total</span>
@@ -94,8 +96,7 @@ const ChartCard = ({ title, data, colors, total }) => {
                 <span
                   className="legend-dot"
                   style={{
-                    backgroundColor:
-                      colors[index % colors.length],
+                   backgroundColor: getCategoryColor(item.name),
                   }}
                 />
 
@@ -114,21 +115,34 @@ const ChartCard = ({ title, data, colors, total }) => {
     </div>
   );
 };
+const getCategoryColor = (name) => {
+  let hash = 0;
 
-const FinancialOverview = ({
-  incomeData,
-  expenseData,
-}) => {
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  const hue = Math.abs(hash) % 360;
+
+  return `hsl(${hue}, 70%, 55%)`;
+};
+
+
+const FinancialOverview = ({incomeData,expenseData,}) => {
 
   const incomeTotal = incomeData.reduce(
     (sum, item) => sum + item.amount,
     0
   );
 
+   
   const expenseTotal = expenseData.reduce(
     (sum, item) => sum + item.amount,
     0
   );
+
+
+ 
 
   return (
     <div className="financial-overview">
@@ -136,14 +150,12 @@ const FinancialOverview = ({
       <ChartCard
         title="Income Sources"
         data={incomeData}
-        colors={incomeColors}
         total={incomeTotal}
       />
 
       <ChartCard
         title="Expense Categories"
         data={expenseData}
-        colors={expenseColors}
         total={expenseTotal}
       />
 

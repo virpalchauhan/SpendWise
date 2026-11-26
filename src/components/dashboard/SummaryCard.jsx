@@ -13,7 +13,7 @@ const SummaryCard = ({
           <h2 className="summary-card-amount">{amount}</h2>
 
           <span className={`summary-card-trend ${trend}`}>
-            {percentage}
+            {percentage} 
           </span>
         </div>
 
